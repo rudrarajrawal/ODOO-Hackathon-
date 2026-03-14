@@ -237,16 +237,16 @@ Analytics & Monitoring Engine
 
 # ⚙️ Installation & Setup
 
-* Clone the repository:
+## Clone the repository:
 * git clone [https://github.com/yourusername/inventrix.git](https://github.com/rudrarajrawal/ODOO-Hackathon-.git)
 
-* Navigate to the project directory:
+## Navigate to the project directory:
 * cd inventrix
 
-* Install dependencies:
+## Install dependencies:
 * npm install
 
-* Run the server:
+## Run the server:
 * node server.js
 
 * The application will start locally.
