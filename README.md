@@ -234,7 +234,7 @@ Analytics & Monitoring Engine
 # ⚙️ Installation & Setup
 
 ## Clone the repository:
-* git clone [https://github.com/yourusername/inventrix.git](https://github.com/rudrarajrawal/ODOO-Hackathon-.git)
+* git clone https://github.com/rudrarajrawal/ODOO-Hackathon-.git
 
 ## Navigate to the project directory:
 * cd inventrix
