@@ -1,255 +1,272 @@
-# CoreInventory – Inventory Management System
+📦 Core Inventory Management System
+📌 Project Overview
 
-## Overview
+The Core Inventory Management System is a web-based application designed to manage products, suppliers/customers, and delivery orders efficiently. The system helps administrators track inventory levels, manage people involved in the supply chain, and monitor product orders.
 
-CoreInventory is a modular **Inventory Management System (IMS)** built to digitize and streamline stock management within a business. It replaces manual registers, spreadsheets, and scattered tracking methods with a **centralized, real-time application** that manages product inventory, warehouse operations, and stock movements efficiently.
+This project is built using Node.js, Express.js, SQLite, HTML, CSS, JavaScript, and Bootstrap to provide a simple and responsive admin interface for inventory control.
 
-This project was developed as part of an **8-hour hackathon challenge**, focusing on delivering a working core inventory workflow.
+🚀 Features
+1️⃣ Authentication System
 
-# Problem Statement
+A simple login authentication module is implemented for admin access.
 
-Businesses often manage inventory using manual records or Excel sheets, which leads to:
+Default Admin Credentials
 
-* Data inconsistencies
-* Stock mismatches
-* Lack of real-time visibility
-* Difficult tracking of product movements
+Email: admin@inventory.com
 
-CoreInventory solves these issues by providing a **centralized platform** for managing products, inventory movements, and warehouse operations.
+Password: 123456
 
-# Target Users
+After successful login, the user is redirected to the Dashboard.
 
-### Inventory Managers
+📊 Dashboard
 
-Responsible for managing stock operations such as receiving goods, delivering items, and monitoring inventory levels.
+The dashboard provides a quick overview of inventory status through summary cards.
 
-### Warehouse Staff
+Dashboard Metrics
 
-Handle operational tasks like:
+Total Products
 
-* Picking
-* Packing
-* Transfers
-* Inventory counting
+Total Suppliers
 
-# Key Features
+Total Orders
 
-## 1. Authentication
+Low Stock Items
 
-* User login and signup
-* Secure access to inventory dashboard
-* Profile management
+The dashboard also includes a sidebar navigation menu for easy access to modules.
 
-# 2. Dashboard
+Sidebar Menu
 
-The dashboard provides a quick snapshot of inventory activity.
+Dashboard
 
-### Dashboard KPIs
+Products
 
-* Total Products in Stock
-* Low Stock / Out of Stock Items
-* Pending Receipts
-* Pending Deliveries
-* Scheduled Internal Transfers
+People
 
-### Filters
+Orders
 
-Users can filter operations by:
+Logout
 
-* Document Type (Receipts, Deliveries, Transfers, Adjustments)
-* Status (Draft, Waiting, Ready, Done, Cancelled)
-* Warehouse or location
-* Product category
+📦 Products Management
 
-# 3. Product Management
+The Products module allows administrators to manage inventory items.
 
-Users can create and manage products.
+Product Table Fields
 
-### Product Fields
+ID
 
-* Product Name
-* SKU / Product Code
-* Category
-* Unit of Measure
-* Initial Stock (optional)
+Product Name
 
-### Capabilities
+Category
 
-* Create products
-* Update product details
-* Track stock per warehouse/location
+Price
 
-# 4. Inventory Operations
+Stock Quantity
 
-## Receipts (Incoming Goods)
+Supplier
 
-Used when products arrive from vendors.
+Actions (Edit / Delete)
 
-### Workflow
+Add Product Form
 
-1. Create receipt
-2. Add supplier and products
-3. Enter received quantities
-4. Validate receipt
+Product Name
 
-### Result
+Category
 
-Stock quantity increases automatically.
+Price
 
-## Delivery Orders (Outgoing Goods)
+Stock Quantity
 
-Used when products are shipped to customers.
+Supplier
 
-### Workflow
+CRUD Operations
 
-1. Pick items
-2. Pack items
-3. Validate delivery
+The module supports full CRUD functionality:
 
-### Result
+Create Product
 
-Stock quantity decreases.
+View Product List
 
+Edit Product
 
-## Internal Transfers
+Delete Product
 
-Transfers stock between locations or warehouses.
+👥 People Management
 
-Examples:
+The People module manages suppliers and customers.
 
-* Main Warehouse → Production Floor
-* Rack A → Rack B
-* Warehouse 1 → Warehouse 2
+Fields
 
-Stock quantity remains the same overall but **location changes**.
+Name
 
-## Inventory Adjustments
+Phone
 
-Used when there is a mismatch between recorded and physical stock.
+Email
 
-### Adjustment Process
+Address
 
-1. Select product and location
-2. Enter counted quantity
-3. System updates inventory
+Type (Supplier / Customer)
 
-# Stock Movement Ledger
+Table Columns
 
-Every inventory operation creates a **movement record**.
+ID
 
-Ledger tracks:
+Name
 
-* Product
-* Operation type
-* Quantity change
-* Source location
-* Destination location
-* Timestamp
+Type
 
-This ensures **full traceability of stock movements**.
+Phone
 
+Email
 
-# Additional Features
+Address
 
-* Low stock alerts
-* Multi-warehouse support
-* Smart SKU search
-* Operation filters
-* Inventory history tracking
+Actions (Edit / Delete)
 
+Features
 
-# System Architecture
+Add People
 
-### Frontend
+Edit People
 
-* User interface
-* Dashboard visualization
-* Operation forms
-* Product management screens
+Delete People
 
-### Backend
+View List
 
-* API services
-* Business logic
-* Inventory calculation
+🚚 Orders / Delivery Management
 
-### Database
+The Orders module tracks product deliveries and customer orders.
 
-Stores:
+Order Fields
 
-* Users
-* Products
-* Warehouses
-* Inventory records
-* Movement history
+Order ID
 
----
+Product
 
-# Project Structure
+Customer
 
-```
-coreinventory/
+Quantity
+
+Order Date
+
+Status (Pending / Delivered)
+
+Inventory Logic
+
+When a new order is created, the system automatically reduces product stock.
+
+Example:
+
+Product Stock = 50
+Order Quantity = 5
+
+New Stock = 45
+
+⚠️ Inventory Logic
+
+The system includes basic inventory management rules:
+
+When an order is created → Stock is reduced
+
+When stock falls below a threshold (10 units) → Marked as LOW STOCK
+
+Low stock alerts are displayed on the Dashboard
+
+🎨 UI Design
+
+The interface is built using Bootstrap to provide a clean and responsive admin layout.
+
+Layout Structure
+
+Left Sidebar Navigation
+
+Top Header Bar
+
+Main Content Area
+
+Table Features
+
+Search Bar
+
+Responsive Design
+
+Pagination (optional)
+
+🗂 Project Structure
+inventory-system
 │
-├── backend/
-│   ├── controllers
-│   ├── routes
-│   ├── models
-│   └── services
+├── server.js
+├── database
+│   └── inventory.db
 │
-├── frontend/
-│   ├── pages
-│   ├── components
-│   └── dashboard
+├── routes
+│   ├── auth.js
+│   ├── products.js
+│   ├── people.js
+│   └── orders.js
 │
-└── database/
-    └── schema.sql
-```
+├── models
+│   ├── productModel.js
+│   ├── peopleModel.js
+│   └── orderModel.js
+│
+└── public
+    ├── login.html
+    ├── dashboard.html
+    ├── products.html
+    ├── people.html
+    ├── orders.html
+    ├── css
+    └── js
+🗄 Database Schema
+Users Table
+Field	Description
+id	Primary Key
+email	User Email
+password	User Password
+Products Table
+Field	Description
+id	Product ID
+name	Product Name
+category	Product Category
+price	Product Price
+stock	Stock Quantity
+supplier_id	Supplier Reference
+People Table
+Field	Description
+id	Person ID
+name	Person Name
+type	Supplier / Customer
+phone	Contact Number
+email	Email Address
+address	Address
+Orders Table
+Field	Description
+id	Order ID
+product_id	Product Reference
+customer_id	Customer Reference
+quantity	Ordered Quantity
+status	Order Status
+date	Order Date
+🛠 Technologies Used
 
----
+Node.js
 
-# Core Modules
+Express.js
 
-* Authentication
-* Dashboard
-* Product Management
-* Receipts
-* Delivery Orders
-* Inventory Adjustments
-* Internal Transfers
-* Stock Ledger
+SQLite
 
----
+HTML5
 
-# Future Improvements
+CSS3
 
-* Barcode scanning
-* Advanced analytics
-* Supplier management
-* Automated reorder system
-* Mobile warehouse app
-* AI demand forecasting
+JavaScript
 
----
+Bootstrap
 
-# Demo Workflow
-
-1. Create a product
-2. Receive stock from supplier
-3. Transfer stock to another location
-4. Deliver items to customer
-5. Adjust damaged inventory
-
-The dashboard updates automatically as inventory changes.
-
----
-
-# Team
-
-Developed by the hackathon team as part of the **CoreInventory challenge**.
-
----
-
-# License
-
-This project is intended for educational and hackathon use.
-
+▶️ How to Run the Project
+1️⃣ Install Dependencies
+npm install
+2️⃣ Start the Server
+node server.js
+3️⃣ Open in Browser
+http://localhost:3000
