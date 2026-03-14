@@ -6,8 +6,6 @@ CoreInventory is a modular **Inventory Management System (IMS)** built to digiti
 
 This project was developed as part of an **8-hour hackathon challenge**, focusing on delivering a working core inventory workflow.
 
-
-
 # Problem Statement
 
 Businesses often manage inventory using manual records or Excel sheets, which leads to:
@@ -18,8 +16,6 @@ Businesses often manage inventory using manual records or Excel sheets, which le
 * Difficult tracking of product movements
 
 CoreInventory solves these issues by providing a **centralized platform** for managing products, inventory movements, and warehouse operations.
-
-
 
 # Target Users
 
@@ -36,8 +32,6 @@ Handle operational tasks like:
 * Transfers
 * Inventory counting
 
-
-
 # Key Features
 
 ## 1. Authentication
@@ -45,7 +39,6 @@ Handle operational tasks like:
 * User login and signup
 * Secure access to inventory dashboard
 * Profile management
-
 
 # 2. Dashboard
 
@@ -67,8 +60,6 @@ Users can filter operations by:
 * Status (Draft, Waiting, Ready, Done, Cancelled)
 * Warehouse or location
 * Product category
-
-
 
 # 3. Product Management
 
@@ -105,12 +96,6 @@ Used when products arrive from vendors.
 
 Stock quantity increases automatically.
 
-Example:
-
-Receive 50 units of Steel Rods
-Inventory → +50
-
-
 ## Delivery Orders (Outgoing Goods)
 
 Used when products are shipped to customers.
@@ -125,11 +110,6 @@ Used when products are shipped to customers.
 
 Stock quantity decreases.
 
-Example:
-
-Deliver 10 chairs
-Inventory → -10
-
 
 ## Internal Transfers
 
@@ -143,8 +123,6 @@ Examples:
 
 Stock quantity remains the same overall but **location changes**.
 
-
-
 ## Inventory Adjustments
 
 Used when there is a mismatch between recorded and physical stock.
@@ -154,12 +132,6 @@ Used when there is a mismatch between recorded and physical stock.
 1. Select product and location
 2. Enter counted quantity
 3. System updates inventory
-
-Example:
-
-3 damaged items detected
-Inventory → -3
-
 
 # Stock Movement Ledger
 
@@ -185,33 +157,6 @@ This ensures **full traceability of stock movements**.
 * Operation filters
 * Inventory history tracking
 
-
-
-# Example Inventory Flow
-
-### Step 1 – Receive Goods
-
-Receive 100 kg steel from vendor
-Inventory → +100
-
-### Step 2 – Internal Transfer
-
-Move stock to production rack
-Inventory total unchanged
-
-### Step 3 – Deliver Goods
-
-Deliver 20 steel frames
-Inventory → -20
-
-### Step 4 – Adjustment
-
-3 kg steel damaged
-Inventory → -3
-
-All movements are automatically recorded in the ledger.
-
----
 
 # System Architecture
 
