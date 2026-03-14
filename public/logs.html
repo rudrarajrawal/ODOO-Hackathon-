@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('/login');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs - INVENTRIX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-wrapper">
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+        <div class="navbar-logo">INVENTRIX</div>
+        <nav class="nav-horizontal">
+            <a class="nav-link" href="/dashboard"><i class="bi bi-grid"></i> Dashboard</a>
+            <a class="nav-link" href="/products"><i class="bi bi-box"></i> Products</a>
+            <a class="nav-link" href="/people"><i class="bi bi-people"></i> People</a>
+            <a class="nav-link" href="/orders"><i class="bi bi-cart"></i> Orders</a>
+            <a class="nav-link" href="/analytics"><i class="bi bi-bar-chart"></i> Analytics</a>
+            <a class="nav-link active" href="/logs"><i class="bi bi-journal-text"></i> Logs</a>
+            <a class="nav-link" href="/settings"><i class="bi bi-gear"></i> Settings</a>
+        <div class="navbar-actions">
+            <a class="nav-link text-danger p-2" href="#" onclick="logout()" title="Logout">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Sub-Header for Page Title & Actions -->
+    <div class="sub-header">
+        <h1 class="page-title">SYSTEM_AUDIT_LOGS</h1>
+        <div class="sub-actions">
+             <span class="text-muted small"><i class="bi bi-shield-check"></i> Audit trail verified</span>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header border-bottom border-secondary py-3">
+                <h5 class="mb-0 text-primary-neon">RAW_ACTIVITY_STREAM</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsTableBody">
+                            <tr>
+                                <td colspan="4" class="text-center py-4">Loading system telemetry...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<script type="module" src="/js/api.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module">
+    import api from '/js/api.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const logs = await api.get('/logs');
+            const tbody = document.getElementById('logsTableBody');
+            tbody.innerHTML = '';
+
+            logs.forEach(log => {
+                const tr = document.createElement('tr');
+                const badgeClass = log.action.includes('FAILED') || log.action.includes('DELETED') 
+                    ? 'bg-danger' 
+                    : (log.action.includes('CREATED') ? 'bg-success' : 'bg-info text-dark');
+                
+                tr.innerHTML = `
+                    <td class="text-muted small">${log.timestamp}</td>
+                    <td><span class="badge ${badgeClass}">${log.action}</span></td>
+                    <td class="text-primary-neon">${log.details}</td>
+                    <td><small class="text-muted">${log.user}</small></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error('Failed to load logs', error);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('/login');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - INVENTRIX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="app-wrapper">
+        <!-- Top Navigation Bar -->
+        <header class="top-navbar">
+            <div class="navbar-logo">INVENTRIX</div>
+            <nav class="nav-horizontal">
+                <a class="nav-link" href="/dashboard"><i class="bi bi-grid"></i> Dashboard</a>
+                <a class="nav-link" href="/products"><i class="bi bi-box"></i> Products</a>
+                <a class="nav-link" href="/people"><i class="bi bi-people"></i> People</a>
+                <a class="nav-link" href="/orders"><i class="bi bi-cart"></i> Orders</a>
+                <a class="nav-link" href="/analytics"><i class="bi bi-bar-chart"></i> Analytics</a>
+                <a class="nav-link" href="/logs"><i class="bi bi-journal-text"></i> Logs</a>
+                <a class="nav-link active" href="/settings"><i class="bi bi-gear"></i> Settings</a>
+            </nav>
+            <div class="navbar-actions">
+                <a class="nav-link text-danger p-2" href="#" onclick="logout()" title="Logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Sub-Header for Page Title & Actions -->
+        <div class="sub-header">
+            <h1 class="page-title">SYSTEM_PREFERENCES</h1>
+            <div class="sub-actions">
+                <span class="text-muted small"><i class="bi bi-gear-wide-connected"></i> Configuration
+                    synchronized</span>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="row g-4">
+                <!-- Account & Security -->
+                <div class="col-md-6">
+                    <div class="card p-4 h-100">
+                        <h5 class="text-primary-neon mb-4"><i class="bi bi-shield-lock me-2"></i>ACCOUNT_SECURITY</h5>
+                        <form id="securityForm">
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" name="email" value="admin@inventory.com"
+                                    readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Developer Password</label>
+                                <input type="password" class="form-control" name="password" placeholder="••••••••"
+                                    readonly>
+                                <small class="text-muted">Managed via secure vault</small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Optimization Engine -->
+                <div class="col-md-6">
+                    <div class="card p-4 h-100 border-primary">
+                        <h5 class="text-primary-neon mb-4"><i class="bi bi-cpu me-2"></i>OPTIMIZATION_ENGINE</h5>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="aiForecast" checked>
+                            <label class="form-check-label" for="aiForecast">Dynamic Stock Forecasting</label>
+                            <p class="text-muted small">Predicts demand using historical order telemetry.</p>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="aiAnomaly" checked>
+                            <label class="form-check-label" for="aiAnomaly">Anomaly Detection</label>
+                            <p class="text-muted small">Detects irregular stock movements or fraud.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Matrix -->
+                <div class="col-md-6">
+                    <div class="card p-4 h-100">
+                        <h5 class="text-primary-neon mb-4"><i class="bi bi-bell me-2"></i>NOTIFICATION_MATRIX</h5>
+                        <div class="d-flex flex-column gap-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Email Dispatcher</span>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Slack Integration</span>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>Browser Push</span>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Sync Portal (Simulation) -->
+                <div class="col-md-6">
+                    <div class="card p-4 h-100 overflow-hidden">
+                        <h5 class="text-primary-neon mb-4"><i class="bi bi-cloud-arrow-up me-2"></i>CLOUD_SYNC_PORTAL
+                        </h5>
+                        <div id="syncStatus" class="mb-3">
+                            <span class="badge bg-danger">OFFLINE</span>
+                            <small class="ms-2 text-muted">Last sync: Never</small>
+                        </div>
+                        <div class="progress mb-3 d-none" id="syncProgress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <button class="btn btn-primary w-100" id="syncBtn" onclick="runDemoSync()">
+                            <i class="bi bi-arrow-repeat me-2"></i> INITIATE CLOUD SYNC
+                        </button>
+                        <p class="text-muted small mt-3 text-center">Syncing connects your local edge database to the
+                            global INVENTRIX network.</p>
+                    </div>
+                </div>
+
+                <!-- Environment Footer -->
+                <div class="col-12 mt-4">
+                    <div class="card bg-danger-primary border-secondary">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-primary-neon mb-1">SYSTEM_ENVIRONMENT</h6>
+                                <p class="text-muted small mb-0">Engine: SQLite 3.x | Build: 1.0.4-HACKATHON</p>
+                            </div>
+                            <button class="btn btn-outline-danger btn-sm"
+                                onclick="alert('Operation requires manual override.')">PURGE_DATABASE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/theme.js"></script>
+    <script type="module" src="/js/api.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+    <script>
+        async function runDemoSync() {
+            const btn = document.getElementById('syncBtn');
+            const progress = document.getElementById('syncProgress');
+            const bar = progress.querySelector('.progress-bar');
+            const status = document.getElementById('syncStatus');
+
+            btn.disabled = true;
+            progress.classList.remove('d-none');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>SYNCING...';
+
+            let p = 0;
+            const interval = setInterval(() => {
+                p += Math.random() * 20;
+                if (p >= 100) {
+                    p = 100;
+                    clearInterval(interval);
+                    finalizeSync();
+                }
+                bar.style.width = p + '%';
+            }, 300);
+
+            function finalizeSync() {
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="bi bi-check2-circle me-2"></i>SYNC_COMPLETE';
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-success');
+                    status.innerHTML = '<span class="badge bg-success">SYNCHRONIZED</span> <small class="ms-2 text-muted">Last sync: Just now</small>';
+
+                    // Show a toast if notifications are enabled elsewhere
+                    if (window.showToast) {
+                        window.showToast('Cloud database synchronized successfully!');
+                    }
+                }, 500);
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
