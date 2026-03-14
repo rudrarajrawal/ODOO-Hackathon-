@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('/login');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - INVENTRIX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+
+<div class="app-wrapper">
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+        <div class="navbar-logo">INVENTRIX</div>
+        <nav class="nav-horizontal">
+            <a class="nav-link" href="/dashboard"><i class="bi bi-grid"></i> Dashboard</a>
+            <a class="nav-link" href="/products"><i class="bi bi-box"></i> Products</a>
+            <a class="nav-link" href="/people"><i class="bi bi-people"></i> People</a>
+            <a class="nav-link active" href="/orders"><i class="bi bi-cart"></i> Orders</a>
+            <a class="nav-link" href="/analytics"><i class="bi bi-bar-chart"></i> Analytics</a>
+            <a class="nav-link" href="/logs"><i class="bi bi-journal-text"></i> Logs</a>
+            <a class="nav-link" href="/settings"><i class="bi bi-gear"></i> Settings</a>
+        </nav>
+        <div class="navbar-actions">
+            <a class="nav-link text-danger p-2" href="#" onclick="logout()" title="Logout">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Sub-Header for Page Title & Actions -->
+    <div class="sub-header">
+        <h1 class="page-title">ORDER_MANAGEMENT</h1>
+        <div class="sub-actions">
+            <button class="btn btn-primary" onclick="openAddModal()">
+                + NEW ORDER
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Product</th>
+                            <th>Customer</th>
+                            <th>Qty</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                        <!-- Data populated by orders.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">PROCESS NEW ORDER</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="orderForm">
+                <div class="modal-body">
+                    <div class="alert alert-warning d-none" id="orderError"></div>
+                    <input type="hidden" id="orderId">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Product</label>
+                        <select class="form-select" id="orderProduct" required>
+                            <option value="">Select Product...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Customer</label>
+                        <select class="form-select" id="orderCustomer" required>
+                            <option value="">Select Customer...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="orderQuantity" min="1" required>
+                        <small class="text-muted">Stock will be reduced automatically.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="orderStatus" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Order Date</label>
+                        <input type="date" class="form-control" id="orderDate" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">CANCEL</button>
+                    <button type="submit" class="btn btn-primary">PROCESS ORDER</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container for Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">INVENTRIX</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            Order successfully processed & stock updated.
+        </div>
+    </div>
+</div>
+
+<!-- Global Toast Container -->
+<div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;"></div>
+
+
+<script type="module" src="/js/api.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script src="/js/notifications.js"></script>
+<script src="/js/orders.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

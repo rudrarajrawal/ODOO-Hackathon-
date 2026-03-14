@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Inventory MVP</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, var(--card-bg) 0%, var(--bg-main) 100%);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            color: var(--primary);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(108, 255, 108, 0.3);
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-container">
+        <div class="card login-card">
+            <div id="loginView">
+                <!-- Auth Selection Tabs (Login Only) -->
+                <ul class="nav nav-pills mb-4 justify-content-center" id="authTabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="emailTab" data-bs-toggle="pill">Email</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="phoneTab" data-bs-toggle="pill">Phone</button>
+                    </li>
+                </ul>
+
+                <div class="login-header">
+                    <h2>INVENTRIX</h2>
+                    <p id="viewSubtitle">Access Inventory System</p>
+                </div>
+
+                <!-- Email Login Form -->
+                <form id="loginForm">
+                    <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" required placeholder="admin@inventory.com"
+                            value="admin@inventory.com">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required placeholder="••••••••"
+                            value="123456">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+                    <div class="text-center mt-3">
+                        <a href="#" id="showSignupPage" class="text-decoration-none" style="color: var(--primary);">New
+                            user? Register Now</a>
+                    </div>
+                </form>
+
+                <!-- Phone Login Form (Initially Hidden) -->
+                <form id="phoneLoginForm" class="d-none">
+                    <div id="phoneError" class="alert alert-danger d-none" role="alert"></div>
+                    
+                    <div id="phoneInputStep">
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber" placeholder="+1234567890">
+                            <div class="form-text text-muted">Include country code (e.g., +1)</div>
+                        </div>
+                        <button type="button" id="sendOtpBtn" class="btn btn-primary w-100 py-2">Send OTP</button>
+                    </div>
+
+                    <div id="otpVerifyStep" class="d-none">
+                        <div class="mb-3">
+                            <label for="otpCode" class="form-label">Verification Code</label>
+                            <input type="text" class="form-control" id="otpCode" placeholder="123456">
+                        </div>
+                        <button type="button" id="verifyOtpBtn" class="btn btn-primary w-100 py-2">Verify & Login</button>
+                        
+                        <!-- Reset Password Section within Phone Auth -->
+                        <div id="resetPasswordStep" class="d-none mt-4">
+                            <hr>
+                            <h6>Set New Password</h6>
+                            <div class="mb-3">
+                                <label for="newPhonePassword" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="newPhonePassword" placeholder="••••••••">
+                            </div>
+                            <button type="button" id="saveNewPasswordBtn" class="btn btn-success w-100 py-2">Reset Password</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="#" id="forgotPasswordPhone" class="text-decoration-none" style="color: var(--primary);">Forgot Password? Use Phone</a>
+                    </div>
+                </form>
+            </div>
+
+            <div id="signupView" class="d-none">
+                <div class="login-header">
+                    <h2>REGISTER NEW USER</h2>
+                    <p>Create Secure Credentials</p>
+                </div>
+
+                <form id="signupForm">
+                    <div id="signupError" class="alert alert-danger d-none" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label for="regEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="regEmail" required
+                            placeholder="new.user@inventory.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="regPhone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="regPhone" required
+                            placeholder="+1234567890">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="regPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="regPassword" required placeholder="••••••••"
+                            minlength="6">
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-primary w-100 py-2">SIGN UP</button>
+                    <div class="text-center mt-3">
+                        <a href="#" id="showLoginPage" class="text-decoration-none"
+                            style="color: var(--text-muted);">Already registered? Login instead</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/api.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+</body>
+
+</html>

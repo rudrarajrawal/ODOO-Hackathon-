@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('/login');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - INVENTRIX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        .chart-container-large {
+            position: relative;
+            height: 400px !important;
+            width: 100%;
+            overflow: hidden;
+        }
+        .chart-container-small {
+            position: relative;
+            height: 300px !important;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+        <div class="navbar-logo">INVENTRIX</div>
+        <nav class="nav-horizontal">
+            <a class="nav-link" href="/dashboard"><i class="bi bi-grid"></i> Dashboard</a>
+            <a class="nav-link" href="/products"><i class="bi bi-box"></i> Products</a>
+            <a class="nav-link" href="/people"><i class="bi bi-people"></i> People</a>
+            <a class="nav-link" href="/orders"><i class="bi bi-cart"></i> Orders</a>
+            <a class="nav-link active" href="/analytics"><i class="bi bi-bar-chart"></i> Analytics</a>
+            <a class="nav-link" href="/logs"><i class="bi bi-journal-text"></i> Logs</a>
+            <a class="nav-link" href="/settings"><i class="bi bi-gear"></i> Settings</a>
+        </nav>
+        <div class="navbar-actions">
+            <a class="nav-link text-danger p-2" href="#" onclick="logout()" title="Logout">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Sub-Header for Page Title & Actions -->
+    <div class="sub-header">
+        <h1 class="page-title">ANALYTICS_DASHBOARD</h1>
+        <div class="sub-actions">
+            <span class="text-muted small"><i class="bi bi-lightning-charge"></i> Real-time insights active</span>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h6 class="text-primary-neon mb-4">REVENUE_TRENDS</h6>
+                    <div class="chart-container-large">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <h6 class="text-primary-neon mb-4">TOP_SALES_VOLUME</h6>
+                    <div class="chart-container-large">
+                        <canvas id="topProductsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header py-3">
+                        <h6 class="mb-0 text-primary-neon">SUPPLIER_DEPENDENCY_RISK</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container-small">
+                            <canvas id="supplierShareChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="module" src="/js/api.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
