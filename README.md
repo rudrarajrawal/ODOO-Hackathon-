@@ -291,6 +291,13 @@ Planned improvements include:
 * IoT integration for smart inventory tracking
 
 
+
+# 📺 Video Explanation
+
+https://drive.google.com/file/d/1zyEsz7aptyOVSX-d2b6uWQA8lMOBSPrq/view?usp=drive_link
+
+
+
 # 👨‍💻 Developed For
 
 Hackathon Project
