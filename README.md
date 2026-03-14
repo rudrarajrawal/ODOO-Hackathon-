@@ -263,10 +263,3 @@ JavaScript
 
 Bootstrap
 
-▶️ How to Run the Project
-1️⃣ Install Dependencies
-npm install
-2️⃣ Start the Server
-node server.js
-3️⃣ Open in Browser
-http://localhost:3000
