@@ -1,7 +1,3 @@
-Here is a **more polished, attractive, and hackathon-grade README** written in **stronger professional English**. It is structured to **impress judges, recruiters, and GitHub viewers immediately**.
-
-
-
 # 🚀 INVENTRIX
 
 ### Intelligent Inventory & Supply Chain Management Platform
